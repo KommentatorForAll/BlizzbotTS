@@ -1,8 +1,10 @@
-import { DiscordClient } from "./model/clients/DiscordClient";
-import { TwitchClient } from "./model/clients/TwitchClient";
+import { DiscordClient } from "./model/domain/clients/DiscordClient";
+import { TwitchClient } from "./model/domain/clients/TwitchClient";
 import { Events } from "tmi.js";
 import * as fs from "fs";
-import { Command } from "./model/Command";
+import { Command } from "./model/domain/Command";
+import { Button } from "./model/domain/Button";
+import { Collection } from "discord.js";
 
 async function loadDiscordEvents(client: DiscordClient) {
     const files = fs.readdirSync("./dist/events/discord");
@@ -13,15 +15,22 @@ async function loadDiscordEvents(client: DiscordClient) {
     }
 }
 
-async function loadDiscordCommands(client: DiscordClient): Promise<Command[]> {
+async function loadDiscordCommands(commandCollection: Collection<string, Command>): Promise<void> {
     const files = fs.readdirSync("./dist/commands/discord");
-    const commands: Command[] = [];
     for (const file of files) {
         if (!file.endsWith(".js")) continue;
         const { default: cmd } = await import(`./commands/discord/${file}`);
-        commands.push(cmd);
+        commandCollection.set(cmd.name, cmd);
     }
-    return commands;
+}
+
+async function loadDiscordButtons(buttonCollection: Collection<string, Button>): Promise<void> {
+    const files = fs.readdirSync("./dist/buttons/discord");
+    for (const file of files) {
+        if (!file.endsWith(".js")) continue;
+        const { default: cmd } = await import(`./buttons/discord/${file}`);
+        buttonCollection.set(cmd.name, cmd);
+    }
 }
 
 async function loadTwitchEvents(client: TwitchClient) {
@@ -35,4 +44,4 @@ async function loadTwitchEvents(client: TwitchClient) {
 
 async function loadTwitchCommands(client: TwitchClient) {}
 
-export { loadDiscordCommands, loadDiscordEvents, loadTwitchCommands, loadTwitchEvents };
+export { loadDiscordCommands, loadDiscordEvents, loadDiscordButtons, loadTwitchCommands, loadTwitchEvents };

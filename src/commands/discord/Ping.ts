@@ -1,5 +1,5 @@
-import { Command } from "../../model/Command";
-import { DiscordClient } from "../../model/clients/DiscordClient";
+import { Command } from "../../model/domain/Command";
+import { DiscordClient } from "../../model/domain/clients/DiscordClient";
 import { CommandInteraction } from "discord.js";
 import { RESTPostAPIChatInputApplicationCommandsJSONBody } from "discord-api-types/rest/v9/interactions";
 import { SlashCommandBuilder } from "@discordjs/builders";

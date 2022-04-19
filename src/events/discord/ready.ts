@@ -1,6 +1,6 @@
 import { ApplicationCommand, ApplicationCommandDataResolvable, Collection, GuildResolvable } from "discord.js";
 import { logger } from "../../logger";
-import { DiscordClient } from "../../model/clients/DiscordClient";
+import { DiscordClient } from "../../model/domain/clients/DiscordClient";
 import { RESTPostAPIChatInputApplicationCommandsJSONBody } from "discord-api-types/rest/v9/interactions";
 
 export async function handle(client: DiscordClient) {

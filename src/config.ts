@@ -28,6 +28,7 @@ class DBConfig {
     public username?: string;
     public password?: string;
     public hostname?: string;
+    public database?: string;
     public port: number;
     public path?: string;
 
@@ -35,10 +36,11 @@ class DBConfig {
         this.username = process.env.DB_USER;
         this.password = process.env.DB_PASSWORD;
         this.hostname = process.env.DB_HOSTNAME;
+        this.database = process.env.DB_DATABASE;
         this.port = parseInt(process.env.DB_PORT || "0");
         this.path = process.env.DB_PATH;
 
-        if (!((this.username && this.password && this.hostname && this.port) || this.path)) {
+        if (!((this.username && this.password && this.hostname && this.port && this.database) || this.path)) {
             throw new Error("Db must either be local or remote. Cannot be None.");
         }
     }
