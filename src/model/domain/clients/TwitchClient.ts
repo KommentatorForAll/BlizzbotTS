@@ -1,9 +1,25 @@
 import { Client } from "tmi.js";
 import { logger } from "../../../logger";
+import { config } from "../../../config";
+import { loadTwitchEvents } from "../../../loader";
 
 export class TwitchClient extends Client {
     constructor() {
-        super({});
+        super({
+            channels: Array.from(config.twitch.channels),
+            identity: {
+                username: config.twitch.username,
+                password: config.twitch.password,
+            },
+            connection: {
+                maxReconnectAttempts: 5,
+                secure: true,
+            },
+            options: {
+                clientId: config.twitch.clientId,
+            },
+        });
+        loadTwitchEvents(this).then(() => logger.info("successfully loaded Twitch events"));
     }
 
     async startup() {

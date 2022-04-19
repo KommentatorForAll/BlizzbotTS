@@ -15,12 +15,14 @@ class TwitchConfig {
     public password: string;
     public channels: string[];
     public clientId?: string;
+    public watchtimeInterval: number;
 
     constructor() {
         this.username = process.env.TWITCH_USERNAME!!;
         this.password = process.env.TWITCH_PASSWORD!!;
         this.channels = process.env.TWITCH_CHANNELS!.split(",");
         this.clientId = process.env.TWITCH_CLIENTID;
+        this.watchtimeInterval = parseInt(process.env.TWITCH_WATCHTIME_INTERVAL || "30");
     }
 }
 
