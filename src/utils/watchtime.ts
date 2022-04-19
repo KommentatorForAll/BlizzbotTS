@@ -5,6 +5,8 @@ import { getCurrentUsersInChat, isOnline } from "./twitchapi";
 import { logger } from "../logger";
 
 async function fetchCurrentWatchers() {
+    const start = process.hrtime();
+
     logger.debug("updating watchtimes");
     for (const channel of config.twitch.channels) {
         if (await isOnline(channel)) {
@@ -14,6 +16,8 @@ async function fetchCurrentWatchers() {
             await updateUsers(currentlyInChat);
         }
     }
+    const end = process.hrtime(start)
+    logger.debug(`took ${end[0] * 1000 + end[1] / 1000000}ms to update userwatchtime`)
 }
 
 async function ensureUsers(currentlyInChat: unknown[]) {

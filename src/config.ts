@@ -20,7 +20,7 @@ class TwitchConfig {
     constructor() {
         this.username = process.env.TWITCH_USERNAME!!;
         this.password = process.env.TWITCH_PASSWORD!!;
-        this.channels = process.env.TWITCH_CHANNELS!.split(",");
+        this.channels = process.env.TWITCH_CHANNELS!.toLowerCase().split(",");
         this.clientId = process.env.TWITCH_CLIENTID;
         this.watchtimeInterval = parseInt(process.env.TWITCH_WATCHTIME_INTERVAL || "30");
     }
