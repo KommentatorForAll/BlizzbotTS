@@ -1,10 +1,12 @@
+import "dotenv/config";
+
 class DiscordConfig {
     public token: string;
     public prefix: string;
 
     constructor() {
-        this.token = process.env.DISCORD_TOKEN!;
-        this.prefix = process.env.DISCORD_PREFIX!;
+        this.token = process.env.DISCORD_TOKEN!!;
+        this.prefix = process.env.DISCORD_PREFIX!!;
     }
 }
 
@@ -15,8 +17,8 @@ class TwitchConfig {
     public clientId?: string;
 
     constructor() {
-        this.username = process.env.TWITCH_USERNAME!;
-        this.password = process.env.TWITCH_PASSWORD!;
+        this.username = process.env.TWITCH_USERNAME!!;
+        this.password = process.env.TWITCH_PASSWORD!!;
         this.channels = process.env.TWITCH_CHANNELS!.split(",");
         this.clientId = process.env.TWITCH_CLIENTID;
     }
@@ -50,7 +52,7 @@ class Config {
 
     constructor() {
         this.loglevel = process.env.LOG_LEVEL || "silly";
-        const useDiscord = (process.env.USE_DISCORD || "false").toLowerCase() in ["1", "true"];
+        const useDiscord = ["1", "true"].includes((process.env.USE_DISCORD || "false").toLowerCase());
         if (useDiscord) this.discord = new DiscordConfig();
         this.twitch = new TwitchConfig();
         this.db = new DBConfig();

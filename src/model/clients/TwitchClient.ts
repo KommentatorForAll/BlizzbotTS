@@ -7,7 +7,7 @@ export class TwitchClient extends Client {
     }
 
     async startup() {
-        logger.info("Logging into Twitch...");
+        logger.info("Signing into Twitch...");
         await this.connect();
     }
 }
