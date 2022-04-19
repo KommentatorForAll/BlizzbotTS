@@ -3,10 +3,12 @@ import "dotenv/config";
 class DiscordConfig {
     public token: string;
     public prefix: string;
+    public devs: string[];
 
     constructor() {
         this.token = process.env.DISCORD_TOKEN!!;
         this.prefix = process.env.DISCORD_PREFIX!!;
+        this.devs = process.env.DISCORD_DEVS?.toLowerCase().split(",") || [];
     }
 }
 
@@ -16,6 +18,7 @@ class TwitchConfig {
     public channels: string[];
     public clientId?: string;
     public watchtimeInterval: number;
+    public devs: string[];
 
     constructor() {
         this.username = process.env.TWITCH_USERNAME!!;
@@ -23,6 +26,7 @@ class TwitchConfig {
         this.channels = process.env.TWITCH_CHANNELS!.toLowerCase().split(",");
         this.clientId = process.env.TWITCH_CLIENTID;
         this.watchtimeInterval = parseInt(process.env.TWITCH_WATCHTIME_INTERVAL || "30");
+        this.devs = process.env.TWITCH_DEVS?.toLowerCase().split(",") || [];
     }
 }
 

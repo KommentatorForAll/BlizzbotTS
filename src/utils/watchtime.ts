@@ -16,8 +16,8 @@ async function fetchCurrentWatchers() {
             await updateUsers(currentlyInChat);
         }
     }
-    const end = process.hrtime(start)
-    logger.debug(`took ${end[0] * 1000 + end[1] / 1000000}ms to update userwatchtime`)
+    const end = process.hrtime(start);
+    logger.debug(`took ${end[0] * 1000 + end[1] / 1000000}ms to update userwatchtime`);
 }
 
 async function ensureUsers(currentlyInChat: unknown[]) {

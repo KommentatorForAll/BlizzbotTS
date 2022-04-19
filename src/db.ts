@@ -3,10 +3,12 @@ import { config } from "./config";
 import { BlacklistEntry } from "./model/db/BlacklistEntry";
 import * as fs from "fs";
 import { logger } from "./logger";
+import { URIWhitelistEntry } from "./model/db/URIWhitelistEntry";
 
 export class DB {
     private sequelize: Sequelize;
     public wordBlacklist: WordBlacklist;
+    public uriWhitelist: URIWhitelist;
 
     constructor() {
         const settings = config.db;
@@ -23,6 +25,7 @@ export class DB {
                   logging: false,
               } as SequelizeOptions);
         this.wordBlacklist = new WordBlacklist();
+        this.uriWhitelist = new URIWhitelist();
     }
 
     async startup(): Promise<void> {
@@ -32,8 +35,8 @@ export class DB {
         await this.sequelize.sync({ alter: true });
         logger.info("Testing database connection");
         await this.sequelize.authenticate();
-        logger.info("Initializing blacklist");
-        await this.wordBlacklist.init();
+        logger.info("Initializing database caches");
+        await Promise.all([this.wordBlacklist.init(), this.uriWhitelist.init()]);
         logger.info("Successfully started database");
     }
 }
@@ -67,6 +70,31 @@ class WordBlacklist {
     }
 
     remove(entry: BlacklistEntry) {
+        this.list.filter((e) => e !== entry);
+        entry.destroy();
+    }
+}
+
+class URIWhitelist {
+    private list!: URIWhitelistEntry[];
+
+    async init() {
+        if (this.list) {
+            throw new Error("Can only be initialized once");
+        }
+        this.list = await URIWhitelistEntry.findAll();
+    }
+
+    getAll() {
+        return this.list;
+    }
+
+    add(entry: URIWhitelistEntry) {
+        this.list.push(entry);
+        entry.save();
+    }
+
+    remove(entry: URIWhitelistEntry) {
         this.list.filter((e) => e !== entry);
         entry.destroy();
     }
