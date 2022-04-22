@@ -7,7 +7,7 @@ async function isOnline(channel: string): Promise<boolean> {
     return response_text !== "offline";
 }
 
-async function getCurrentUsersInChat(channel: string) {
+async function getCurrentUsersInChat(channel: string): Promise<string[]> {
     const chatterInfo = await (await fetch(`http://tmi.twitch.tv/group/user/${channel.slice(1)}/chatters`)).json();
     const currentlyInChatByRole = chatterInfo.chatters;
     return lodash.flatMap(currentlyInChatByRole);

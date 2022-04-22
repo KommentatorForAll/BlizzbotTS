@@ -6,3 +6,4 @@ dist
 /db/
 !model
 logs
+.yarn/cache

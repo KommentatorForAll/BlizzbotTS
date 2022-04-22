@@ -12,15 +12,15 @@ async function fetchCurrentWatchers() {
         if (await isOnline(channel)) {
             logger.debug(`channel ${channel} is online`);
             const currentlyInChat = await getCurrentUsersInChat(channel);
-            await ensureUsers(currentlyInChat);
-            await updateUsers(currentlyInChat);
+            await ensureUsers(currentlyInChat, channel);
+            await updateUsers(currentlyInChat, channel);
         }
     }
     const end = process.hrtime(start);
     logger.debug(`took ${end[0] * 1000 + end[1] / 1000000}ms to update userwatchtime`);
 }
 
-async function ensureUsers(currentlyInChat: unknown[]) {
+async function ensureUsers(currentlyInChat: string[], channel: string) {
     const today = new Date();
     await UserWatchtime.bulkCreate(
         currentlyInChat.map((user) => {
@@ -29,13 +29,14 @@ async function ensureUsers(currentlyInChat: unknown[]) {
                 year: today.getFullYear(),
                 month: today.getMonth(),
                 watchtime: 0,
+                channel: channel,
             };
         }),
         { ignoreDuplicates: true },
     );
 }
 
-async function updateUsers(currentlyInChat: unknown[]) {
+async function updateUsers(currentlyInChat: string[], channel: string) {
     const today = new Date();
     await UserWatchtime.update(
         { watchtime: literal(`watchtime + ${config.twitch.watchtimeInterval}`) },
@@ -44,6 +45,7 @@ async function updateUsers(currentlyInChat: unknown[]) {
                 user: currentlyInChat,
                 year: today.getFullYear(),
                 month: today.getMonth(),
+                channel: channel,
             },
         },
     );

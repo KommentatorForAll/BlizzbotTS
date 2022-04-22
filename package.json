@@ -23,9 +23,9 @@
   },
   "devDependencies": {
     "@types/lodash": "^4.14.182",
-    "@types/validator": "*",
     "@types/node": "^17.0.25",
     "@types/tmi.js": "^1.8.1",
+    "@types/validator": "*",
     "prettier": "^2.6.2"
   },
   "scripts": {
@@ -33,5 +33,6 @@
     "build": "tsc -p tsconfig.json",
     "start": "node --experimental-specifier-resolution=node dist/main.js",
     "run": "yarn build && yarn start"
-  }
+  },
+  "packageManager": "yarn@3.2.0"
 }
