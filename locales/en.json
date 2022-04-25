@@ -1,0 +1,12 @@
+{
+  "anongiftpaidupgrad": "[username] extended their subscription!",
+  "cheer": "[username] cheered [amount] bits!",
+  "giftpaidupgrade": "[username] extended their gift subscription!",
+  "hosted": "[username] hosted with [amount] Viewers!",
+  "primepaidupgrade": "[username] extended their gift subscription!",
+  "raided": "[username] raided with [amount] Viewers!",
+  "resub": "Thanks [username] for your [tier] Subscription in the [amount]. Month [message]",
+  "subgift": "[username] gifted [recipient] a [tier] Subscription. Thank you for your support!",
+  "submysterygift": "[username] gifted [amount] Subscriptions.",
+  "subscription": "Thanks for your [tier] Subscription [username]!"
+}

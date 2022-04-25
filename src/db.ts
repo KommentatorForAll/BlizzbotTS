@@ -4,6 +4,7 @@ import { BlacklistEntry } from "./model/db/BlacklistEntry";
 import * as fs from "fs";
 import { logger } from "./logger";
 import { URIWhitelistEntry } from "./model/db/URIWhitelistEntry";
+import { ChannelConfiguration } from "./model/db/ChannelConfiguration";
 
 export class DB {
     private sequelize: Sequelize;
@@ -37,7 +38,15 @@ export class DB {
         await this.sequelize.authenticate();
         logger.info("Initializing database caches");
         await Promise.all([this.wordBlacklist.init(), this.uriWhitelist.init()]);
+        logger.info("ensuring channel configurations");
+        await this.ensureChannelConfigurations();
         logger.info("Successfully started database");
+    }
+
+    private async ensureChannelConfigurations() {
+        config.twitch.channels.forEach((channel) => {
+            ChannelConfiguration.findCreateFind({ where: { channel: channel.replace("#", "") } });
+        });
     }
 }
 
@@ -70,7 +79,7 @@ class WordBlacklist {
     }
 
     remove(entry: BlacklistEntry) {
-        this.list.filter((e) => e !== entry);
+        this.list = this.list.filter((e) => e !== entry);
         entry.destroy();
     }
 }

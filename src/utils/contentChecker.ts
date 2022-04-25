@@ -1,5 +1,8 @@
 import { db } from "../main";
 import { URIMatchExtend } from "../model/domain/URIMatchExtend";
+import { ChatUserstate } from "tmi.js";
+import { ChannelConfiguration } from "../model/db/ChannelConfiguration";
+import lodash from "lodash";
 
 export async function isWhitelisted(link: string, channel: string): Promise<boolean> {
     let url: URL;
@@ -31,4 +34,16 @@ export async function containsNotAllowedLink(content: string, channel: string): 
         if (!(await isWhitelisted(link, channel))) return true;
     }
     return false;
+}
+
+export async function hasUnallowedAction(context: ChatUserstate, channel: string): Promise<boolean> {
+    const config = (await ChannelConfiguration.findOne({ where: { channel: channel.replace("#", "") } }))!;
+    return !(config.allowActions || context["message-type"] == "action");
+}
+
+export async function containsBadWords(content: string, channel: string): Promise<boolean> {
+    const badWordDTOs = db.wordBlacklist.getAll().filter((w) => w.channel === channel);
+    const badWords = badWordDTOs.map((b) => b.word);
+    const contentWords = content.toLowerCase().split("");
+    return lodash.intersection(badWords, contentWords).length > 0;
 }

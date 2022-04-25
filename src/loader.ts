@@ -2,6 +2,7 @@ import { DiscordClient } from "./model/domain/clients/DiscordClient";
 import { TwitchClient } from "./model/domain/clients/TwitchClient";
 import { Events } from "tmi.js";
 import * as fs from "fs";
+import fsReaddirRecursive from "fs-readdir-recursive";
 import { Command } from "./model/domain/Command";
 import { Button } from "./model/domain/Button";
 import { Collection } from "discord.js";
@@ -34,11 +35,11 @@ async function loadDiscordButtons(buttonCollection: Collection<string, Button>):
 }
 
 async function loadTwitchEvents(client: TwitchClient) {
-    const files = fs.readdirSync("./dist/events/twitch");
+    const files = fsReaddirRecursive("./dist/events/twitch");
     for (const file of files) {
         if (!file.endsWith(".js")) continue;
         const { handle } = await import(`./events/twitch/${file}`);
-        client.on(file.split(".")[0] as keyof Events, handle.bind(null, client));
+        client.on(file.split(/[/\\]/g).slice(-1)[0].split(".")[0] as keyof Events, handle.bind(null, client));
     }
 }
 

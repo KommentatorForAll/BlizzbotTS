@@ -26,4 +26,9 @@ export class TwitchClient extends Client {
         logger.info("Signing into Twitch...");
         await this.connect();
     }
+
+    // @ts-ignore
+    override async say(channel: string, message: string) {
+        logger.info(`${channel}: ${message}`);
+    }
 }

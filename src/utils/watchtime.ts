@@ -1,6 +1,5 @@
 import { config } from "../config";
 import { UserWatchtime } from "../model/db/UserWatchtime";
-import { literal } from "sequelize";
 import { getCurrentUsersInChat, isOnline } from "./twitchapi";
 import { logger } from "../logger";
 
@@ -22,8 +21,12 @@ async function fetchCurrentWatchers() {
 
 async function ensureUsers(currentlyInChat: string[], channel: string) {
     const today = new Date();
-    await UserWatchtime.bulkCreate(
-        currentlyInChat.map((user) => {
+    const existingUsers = (
+        await UserWatchtime.findAll({ where: { channel: channel, year: today.getFullYear(), month: today.getMonth() } })
+    ).map((u) => u.user);
+    const newUsers = currentlyInChat.filter((u) => !existingUsers.includes(u));
+    const savedUsers = await UserWatchtime.bulkCreate(
+        newUsers.map((user) => {
             return {
                 user: user,
                 year: today.getFullYear(),
@@ -34,12 +37,13 @@ async function ensureUsers(currentlyInChat: string[], channel: string) {
         }),
         { ignoreDuplicates: true },
     );
+    logger.debug(`saved ${savedUsers.length} new Users for channel ${channel}`);
 }
 
 async function updateUsers(currentlyInChat: string[], channel: string) {
     const today = new Date();
-    await UserWatchtime.update(
-        { watchtime: literal(`watchtime + ${config.twitch.watchtimeInterval}`) },
+    await UserWatchtime.increment(
+        { watchtime: config.twitch.watchtimeInterval },
         {
             where: {
                 user: currentlyInChat,

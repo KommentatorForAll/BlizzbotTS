@@ -1,0 +1,12 @@
+{
+  "anongiftpaidupgrad": "[username] hat den geschenkten Sub verlängert!",
+  "cheer": "[username] hat [amount] bits gespendet.",
+  "giftpaidupgrade": "[username] hat den geschenkten Sub verlängert!",
+  "hosted": "[username] hosted mit [amount] Zuschauern!",
+  "primepaidupgrade": "[username] hat den geschenkten Sub verlängert!",
+  "raided": "[username] raided mit [amount] Zuschauern!",
+  "resub": "Danke [username] für deine [tier] Subscription im insgesamt [amount]. Monat [message]",
+  "subgift": "[username] schenkt [recipient] eine [tier] Subscription. Vielen Dank für deine Unterstützung!",
+  "submysterygift": "[username] verschenkt [amout] Subscriptions.",
+  "subscription": "Danke für deine [tier] Subscription [username]!"
+}
