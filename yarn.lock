@@ -250,6 +250,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/luxon@npm:^2":
+  version: 2.3.1
+  resolution: "@types/luxon@npm:2.3.1"
+  checksum: e75928929aaf4e8796dcbdccd23a2dda029f637db01f5b06c7a72033ae106966df716e179ee41711280d782bd851228810643bce9bffc4ff62ae906e94ee1df2
+  languageName: node
+  linkType: hard
+
 "@types/ms@npm:*":
   version: 0.7.31
   resolution: "@types/ms@npm:0.7.31"
@@ -1100,6 +1107,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"luxon@npm:^2.3.2":
+  version: 2.3.2
+  resolution: "luxon@npm:2.3.2"
+  checksum: ba4f9daa56d03771c2ddf00e3bf996ec7937badfdc2f85f5b58d63c75bb511369b3316f54ab9ce5ab42bfc9118513971f6599128529b68620b876a4b7c16570b
+  languageName: node
+  linkType: hard
+
 "make-dir@npm:^3.1.0":
   version: 3.1.0
   resolution: "make-dir@npm:3.1.0"
@@ -1713,6 +1727,7 @@ __metadata:
     "@types/fs-readdir-recursive": ^1.0.0
     "@types/i18n": ^0.13.2
     "@types/lodash": ^4.14.182
+    "@types/luxon": ^2
     "@types/node": ^17.0.25
     "@types/node-fetch": ^2.6.1
     "@types/sequelize": ^4.28.11
@@ -1724,6 +1739,7 @@ __metadata:
     fs-readdir-recursive: ^1.1.0
     i18n: ^0.14.2
     lodash: ^4.17.21
+    luxon: ^2.3.2
     node-fetch: ^3.2.3
     pg: ^8.7.3
     pg-hstore: ^2.3.4

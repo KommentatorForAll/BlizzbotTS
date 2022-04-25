@@ -2,11 +2,11 @@ import { Client, Collection } from "discord.js";
 import { config } from "../../../config";
 import { logger } from "../../../logger";
 import { loadDiscordButtons, loadDiscordCommands, loadDiscordEvents } from "../../../loader";
-import { Command } from "../Command";
+import { DiscordCommand } from "../commands/DiscordCommand";
 import { Button } from "../Button";
 
 export class DiscordClient extends Client {
-    public commands: Collection<string, Command>;
+    public commands: Collection<string, DiscordCommand>;
     public buttons: Collection<string, Button>;
 
     constructor() {
@@ -14,7 +14,7 @@ export class DiscordClient extends Client {
             intents: [],
         });
         loadDiscordEvents(this).then(() => logger.info("Successfully loaded Discord events"));
-        this.commands = new Collection<string, Command>();
+        this.commands = new Collection<string, DiscordCommand>();
         loadDiscordCommands(this.commands).then(() => {
             logger.info("Successfully loaded Discord commands");
         });

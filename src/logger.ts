@@ -18,7 +18,7 @@ export const logger = createLogger({
             symlinkName: "latest.log",
             filename: "%DATE%-debug.log",
             level: "unused",
-            format: _format.combine(_format.timestamp(),_format.uncolorize(), _format.simple()),
+            format: _format.combine(_format.timestamp(), _format.uncolorize(), _format.simple()),
             maxFiles: "14d",
         }),
         new DailyRotateFile({
@@ -28,7 +28,7 @@ export const logger = createLogger({
             json: false,
             filename: "%DATE%.log",
             level: "info",
-            format: _format.combine(_format.timestamp(),_format.uncolorize(), _format.simple()),
+            format: _format.combine(_format.timestamp(), _format.uncolorize(), _format.simple()),
             maxFiles: "14d",
         }),
         new _transports.Console({

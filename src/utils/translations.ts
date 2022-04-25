@@ -11,13 +11,13 @@ function loadTranslations(): Map<string, Record<string, string>> {
 export async function getTranslation(
     name: string,
     channel: string,
-    replacements: Record<string, string>,
+    replacements: Record<string, string | number>,
 ): Promise<string> {
     const locale = (await ChannelConfiguration.findOne({ where: { channel: channel.replace("#", "") } }))!.locale;
     const dictionary = locales.get(locale) || locales.get("en")!;
     let result = dictionary[name];
     Object.entries(replacements).forEach(([k, v]) => {
-        result = result.replace(`[${k}]`, v);
+        result = result.replace(`[${k}]`, `${v}`);
     });
     return result;
 }

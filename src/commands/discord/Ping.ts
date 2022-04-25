@@ -1,10 +1,10 @@
-import { Command } from "../../model/domain/Command";
+import { DiscordCommand } from "../../model/domain/commands/DiscordCommand";
 import { DiscordClient } from "../../model/domain/clients/DiscordClient";
 import { CommandInteraction } from "discord.js";
 import { RESTPostAPIChatInputApplicationCommandsJSONBody } from "discord-api-types/rest/v9/interactions";
 import { SlashCommandBuilder } from "@discordjs/builders";
 
-class Ping extends Command {
+class Ping extends DiscordCommand {
     constructor() {
         super("ping");
     }

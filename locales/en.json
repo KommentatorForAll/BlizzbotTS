@@ -8,5 +8,7 @@
   "resub": "Thanks [username] for your [tier] Subscription in the [amount]. Month [message]",
   "subgift": "[username] gifted [recipient] a [tier] Subscription. Thank you for your support!",
   "submysterygift": "[username] gifted [amount] Subscriptions.",
-  "subscription": "Thanks for your [tier] Subscription [username]!"
+  "subscription": "Thanks for your [tier] Subscription [username]!",
+  "duration": "[years] Years, [months] Months, [days] Days, [hours] Hours, [minutes] Minutes",
+  "userage": "The account [username] was created [duration] ago."
 }

@@ -2,12 +2,10 @@ import "dotenv/config";
 
 class DiscordConfig {
     public token: string;
-    public prefix: string;
     public devs: string[];
 
     constructor() {
         this.token = process.env.DISCORD_TOKEN!!;
-        this.prefix = process.env.DISCORD_PREFIX!!;
         this.devs = process.env.DISCORD_DEVS?.toLowerCase().split(",") || [];
     }
 }
@@ -57,9 +55,11 @@ class Config {
     public discord?: DiscordConfig;
     public twitch: TwitchConfig;
     public db: DBConfig;
+    public prefix: string;
 
     constructor() {
         this.loglevel = process.env.LOG_LEVEL || "silly";
+        this.prefix = process.env.PREFIX!!;
         const useDiscord = ["1", "true"].includes((process.env.USE_DISCORD || "false").toLowerCase());
         if (useDiscord) this.discord = new DiscordConfig();
         this.twitch = new TwitchConfig();

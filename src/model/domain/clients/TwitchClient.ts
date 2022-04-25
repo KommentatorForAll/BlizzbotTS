@@ -1,9 +1,12 @@
 import { Client } from "tmi.js";
 import { logger } from "../../../logger";
 import { config } from "../../../config";
-import { loadTwitchEvents } from "../../../loader";
+import { loadTwitchCommands, loadTwitchEvents } from "../../../loader";
+import { TwitchCommand } from "../commands/TwitchCommand";
+import { Collection } from "discord.js";
 
 export class TwitchClient extends Client {
+    public commands: Collection<string, TwitchCommand>;
     constructor() {
         super({
             channels: Array.from(config.twitch.channels),
@@ -20,6 +23,8 @@ export class TwitchClient extends Client {
             },
         });
         loadTwitchEvents(this).then(() => logger.info("successfully loaded Twitch events"));
+        this.commands = new Collection<string, TwitchCommand>();
+        loadTwitchCommands(this.commands).then(() => logger.info("successfully loaded Twitch events"));
     }
 
     async startup() {

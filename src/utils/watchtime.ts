@@ -1,7 +1,8 @@
 import { config } from "../config";
 import { UserWatchtime } from "../model/db/UserWatchtime";
-import { getCurrentUsersInChat, isOnline } from "./twitchapi";
+import { getCurrentUsersInChat } from "./twitchapi";
 import { logger } from "../logger";
+import { isOnline } from "./decapi";
 
 async function fetchCurrentWatchers() {
     const start = process.hrtime();

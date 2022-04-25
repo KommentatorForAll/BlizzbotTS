@@ -3,12 +3,6 @@ import fetch from "node-fetch";
 import { SubUserstate } from "tmi.js";
 import type { ChatterInfo } from "../typings/Chatters";
 
-async function isOnline(channel: string): Promise<boolean> {
-    const response = await fetch(`https://decapi.me/twitch/uptime/${channel}?offline_msg=offline`);
-    const response_text = await response.text();
-    return response_text !== "offline";
-}
-
 async function getCurrentUsersInChat(channel: string): Promise<string[]> {
     const chatterInfo = (await (
         await fetch(`http://tmi.twitch.tv/group/user/${channel.replace("#", "")}/chatters`)
@@ -27,4 +21,4 @@ function getTier(userstate: SubUserstate): string {
     return tierList[tiers!];
 }
 
-export { isOnline, getCurrentUsersInChat, disableFollowerChat, getTier };
+export { getCurrentUsersInChat, disableFollowerChat, getTier };

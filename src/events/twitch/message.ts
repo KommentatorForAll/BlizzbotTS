@@ -1,9 +1,10 @@
 import { TwitchClient } from "../../model/domain/clients/TwitchClient";
-import { ChatUserstate, SubMethod } from "tmi.js";
+import { ChatUserstate } from "tmi.js";
 import { logger, twitchMessageLogger } from "../../logger";
-import { userByTwitch } from "../../model/domain/User";
+import { User, userByTwitch } from "../../model/domain/User";
 import { PermissionLevel } from "../../model/domain/PermissionLevel";
 import { containsBadWords, containsNotAllowedLink, hasUnallowedAction } from "../../utils/contentChecker";
+import { config } from "../../config";
 
 export async function handle(
     client: TwitchClient,
@@ -22,18 +23,8 @@ export async function handle(
     const user = await userByTwitch(context.username!, context);
     if (user.permission < PermissionLevel.mod) {
         await checkMessage(client, channel.slice(1), context, content);
-    } else {
-        if (content === "emit cheer") {
-            logger.debug("sb emitted cheer");
-            client.emit("cheer", "commentatorforall", { bits: "100" }, "");
-        } else if (content === "emit sub") {
-            logger.debug(client.listenerCount("subscription"));
-            // @ts-ignore
-            client.emit("subscription", "commentatorforall", "hello world", "Prime" as SubMethod, "heyy", {
-                "msg-param-sub-plan": "1000",
-            });
-        }
     }
+    await handleCommands(client, channel, user, context, content);
 }
 
 async function checkMessage(client: TwitchClient, channel: string, context: ChatUserstate, content: string) {
@@ -49,4 +40,18 @@ async function checkMessage(client: TwitchClient, channel: string, context: Chat
         logger.debug("message does contain a bad word");
         return client.deletemessage(channel, context.id!);
     }
+}
+
+async function handleCommands(client: TwitchClient, channel: string, user: User, context: ChatUserstate, content: string) {
+    if (!content.startsWith(config.prefix)) return;
+
+    let args = content.split(" ");
+    const commandName = args.shift()
+    if (!commandName) return;
+
+    const command = client.commands.get(commandName.replace(config.prefix, ""));
+    if (!command) return;
+    if (user.permission < command.minimumPermission) return;
+
+    await command.execute(client, channel, user, context, content, args);
 }

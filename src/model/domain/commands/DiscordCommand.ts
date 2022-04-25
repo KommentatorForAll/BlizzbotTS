@@ -1,8 +1,8 @@
 import { CommandInteraction } from "discord.js";
-import { DiscordClient } from "./clients/DiscordClient";
+import { DiscordClient } from "../clients/DiscordClient";
 import { RESTPostAPIChatInputApplicationCommandsJSONBody } from "discord-api-types/rest/v9/interactions";
 
-export abstract class Command {
+export abstract class DiscordCommand {
     protected constructor(public readonly name: string) {}
 
     abstract execute(client: DiscordClient, interaction: CommandInteraction): Promise<void>;

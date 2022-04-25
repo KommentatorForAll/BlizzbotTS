@@ -8,5 +8,7 @@
   "resub": "Danke [username] für deine [tier] Subscription im insgesamt [amount]. Monat [message]",
   "subgift": "[username] schenkt [recipient] eine [tier] Subscription. Vielen Dank für deine Unterstützung!",
   "submysterygift": "[username] verschenkt [amout] Subscriptions.",
-  "subscription": "Danke für deine [tier] Subscription [username]!"
+  "subscription": "Danke für deine [tier] Subscription [username]!",
+  "duration": "[years] Jahren, [months] Monaten, [days] Tagen, [hours] Stunden, [minutes] Minuten",
+  "userage": "Der Account [username] wurde vor [duration] erstellt."
 }
